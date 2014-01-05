@@ -1,5 +1,10 @@
 
-
+#
+# DO NOT PUT YOUR SECRET KEYS IN HERE!
+# Instead, put them in config/development.yaml.  
+# That file is listed in .gitignore which will keep your 
+# credentials from ever getting added to Git.
+#
 twitter:
     consumer_key: "Create an app at https://dev.twitter.com/"
     consumer_secret: "And populate these values"
