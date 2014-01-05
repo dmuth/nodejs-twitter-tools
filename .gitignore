@@ -13,3 +13,10 @@ results
 
 npm-debug.log
 node_modules
+
+#
+# Don't store our development config as this would contain actual credentials.
+#
+config/development.yaml
+config/runtime.json
+
