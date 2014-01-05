@@ -1,0 +1,16 @@
+{
+	"name": "nodejs-follow-back",
+	"version": "0.0.1",
+
+	"scripts": {
+		"start": "node ./app.js"
+	},
+
+	"dependencies" : {
+		"async": "0.2.9",
+		"config": "0.4.33",
+		"twit":	"1.1.11",
+		"yaml": "0.2.3"
+	}
+
+}
