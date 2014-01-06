@@ -16,7 +16,7 @@ var t = require("./lib/twitter");
 
 
 winston.remove(winston.transports.Console);
-winston.add(winston.transports.Console, {colorize: true, timestamp: true, })
+winston.add(winston.transports.Console, {colorize: true, timestamp: true, level: "debug" })
 
 
 var options = {};
@@ -30,6 +30,7 @@ commander
 	.version('0.0.1')
 	.option("-n, --num <n>", "How many followers to add as friends", parseInt)
 	.option("--include_protected", "Add protected users as friends (request access to their Twitter feeds, actually)")
+	.option("--cursor <cursor>", "Our cursor from a previous run so we can pick up where we left off")
 	.option("--whoami", "Ask Twitter who the authenticating user is")
 	.option("--go", "Actually add followers as twitter friends. (adding users is faked, otherwise)")
 	.parse(process.argv)
@@ -58,6 +59,7 @@ if (commander.whoami) {
 			//opt.chunk_size = 10;
 			opt.include_protected = false;
 			opt.just_fans = true;
+			opt.cursor = commander.cursor;
 	
 			twitter.getFollowers(opt, cb);
 
@@ -69,7 +71,16 @@ if (commander.whoami) {
 				winston.info(util.format(
 					"Following user '%s'...", user.screen_name
 					));
-				twitter.addFriend(user.screen_name, cb);
+
+				if (commander.go) {
+					twitter.addFriend(user.screen_name, cb);
+
+				} else {
+					winston.info(util.format(
+						"Pretending to follow user '%s'", user.screen_name
+						));
+
+				}
 
 			}, function(error) {
 				winston.info("Done adding users!");
@@ -79,8 +90,11 @@ if (commander.whoami) {
 
 		}
 		], function(error) {
-			winston.log("ERROR", error);
-			process.exit(1);
+			if (error) {
+				winston.error(error);
+				process.exit(1);
+			}
+
 		});
 
 } else {
