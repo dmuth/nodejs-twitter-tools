@@ -17,6 +17,7 @@ node_modules
 #
 # Don't store our development config as this would contain actual credentials.
 #
-config/development.yaml
-config/runtime.json
+config/*
+!config/default.yaml
+
 
