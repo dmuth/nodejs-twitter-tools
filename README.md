@@ -98,6 +98,10 @@ $ ./app.js --num 1
 Note that by default protected users are ignored, as are users we are already following.
 
 
+### For Further Reading
+- [Twitter REST API v1.1 Resources](https://dev.twitter.com/docs/api/1.1)
+
+
 ### Feedback
 
 Have feedback?  Want to report bugs?
