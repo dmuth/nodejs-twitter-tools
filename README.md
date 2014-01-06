@@ -97,3 +97,16 @@ $ ./app.js --num 1
 
 Note that by default protected users are ignored, as are users we are already following.
 
+
+### Feedback
+
+Have feedback?  Want to report bugs?
+
+You can find me on various social networks here:
+
+[http://www.dmuth.org/contact](http://www.dmuth.org/contact)
+
+Enjoy!
+
+
+
