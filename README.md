@@ -99,6 +99,21 @@ $ ./app.js --num 1
 Note that by default protected users are ignored, as are users we are already following.
 
 
+### /followers/list only returns 200 users max instead of 5,000.  Halp!
+
+No worries.  It turns out that cursors are persistent for a macroscopic 
+amount of time.  Just keep running the script, and after you exhaust 
+your quota, look for a line near the end of the run that looks like this:
+
+````
+2014-01-06T04:12:24.453Z - info: NOTE: Want to pick up here again? This is the current cursor: 1451741634324255500
+````
+
+After your quota has replenished, be sure to specify this cursor with 
+--cursor on the command line, and your follower queries will pick up 
+where they left off.
+
+
 ### For Further Reading
 - [Twitter REST API v1.1 Resources](https://dev.twitter.com/docs/api/1.1)
 
