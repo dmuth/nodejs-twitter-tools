@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
 * This script is used to interact with Twitter.
 */
