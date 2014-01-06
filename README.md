@@ -34,6 +34,7 @@ So I wrote my own.
     -V, --version        output the version number
     -n, --num <n>        How many followers to add as friends
     --include_protected  Add protected users as friends (request access to their Twitter feeds, actually)
+    --cursor <cursor>    Our cursor from a previous run so we can pick up where we left off
     --whoami             Ask Twitter who the authenticating user is
     --go                 Actually add followers as twitter friends. (adding users is faked, otherwise)
 ````
