@@ -1,8 +1,8 @@
 ## Node.js Twitter Tools
 
-I manage [the Twitter account](http://twitter.com/Anthrocon) for [Anthrocon](http://www.anthrocon.org/) 
-and wanted to start following our followers back, but was annoyed because none of the tools out there would do 
-exactly what I wanted.  (At least not without paying $29.95/month)
+I manage [the Twitter account](http://twitter.com/Anthrocon) for [Anthrocon](http://www.anthrocon.org/).
+Recently, we hit 10,000 followers and I wanted to start following our followers back, but was annoyed 
+because none of the tools out there would do exactly what I wanted.  (At least not without paying $29.95/month)
 
 So I wrote my own.
 
