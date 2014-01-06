@@ -1,10 +1,17 @@
 ## Node.js Twitter Tools
 
-I manage the Twitter account for Anthrocon and wanted to start following our 
-followers back, but was annoyed because none of the tools out there would do 
+I manage [the Twitter account](http://twitter.com/Anthrocon) for [Anthrocon](http://www.anthrocon.org/) 
+and wanted to start following our followers back, but was annoyed because none of the tools out there would do 
 exactly what I wanted.  (At least not without paying $29.95/month)
 
 So I wrote my own.
+
+
+### Installation
+
+    git@github.com:dmuth/nodejs-twitter-tools.git
+    cd nodejs-twitter-tools
+    npm install
 
 
 ### Configuration
