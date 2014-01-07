@@ -57,36 +57,42 @@ if (commander.whoami) {
 			opt.limit = commander.num;
 			opt.skip = 0;
 			//opt.chunk_size = 10;
-			opt.include_protected = false;
+			opt.include_protected = commander.include_protected;
 			opt.just_fans = true;
 			opt.cursor = commander.cursor;
 	
-			twitter.getFollowers(opt, cb);
-
-		}, function(users, cb) {
-			//
-			// Loop through our users and follow each of them
-			//
-			async.forEachLimit(users, 1, function(user, cb) {
+			var add_user = function(user, cb) {
 				winston.info(util.format(
 					"Following user '%s'...", user.screen_name
 					));
 
 				if (commander.go) {
-					twitter.addFriend(user.screen_name, cb);
+					twitter.addFriend(user.screen_name, function(error) {
+						if (error) {
+							cb(error);
+							return(null);
+						}
+						winston.info(util.format(
+							"Added user '%s'!", user.screen_name
+							));
+						cb(null);
+					});
 
 				} else {
 					winston.info(util.format(
 						"Pretending to follow user '%s'", user.screen_name
 						));
+					cb(null);
 
 				}
 
-			}, function(error) {
-				winston.info("Done adding users!");
-				cb(error);
+			}
 
-			});
+			twitter.getFollowers(opt, add_user, cb);
+
+		}, function(users, cb) {
+				winston.info("Done adding users!");
+				cb();
 
 		}
 		], function(error) {
