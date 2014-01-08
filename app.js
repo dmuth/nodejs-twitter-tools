@@ -26,6 +26,41 @@ options.access_token = config.twitter.access_token;
 options.access_token_secret = config.twitter.access_token_secret;
 
 
+/**
+* Follow a user on Twitter
+*
+* @param {object} user The user object
+* @param {object} cb Our callback
+*/
+function followUser(user, cb) {
+
+	winston.info(util.format(
+		"Following user '%s'...", user.screen_name
+		));
+
+	if (commander.go) {
+		twitter.addFriend(user.screen_name, function(error) {
+		if (error) {
+			cb(error);
+			return(null);
+		}
+		winston.info(util.format(
+			"Added user '%s'!", user.screen_name
+			));
+		cb(null);
+	});
+
+	} else {
+		winston.info(util.format(
+			"Pretending to follow user '%s'", user.screen_name
+			));
+		cb(null);
+
+	}
+
+} // End of followUser()
+
+
 commander
 	.version('0.0.1')
 	.option("-n, --num <n>", "How many followers to add as friends", parseInt)
@@ -61,34 +96,7 @@ if (commander.whoami) {
 			opt.just_fans = true;
 			opt.cursor = commander.cursor;
 	
-			var add_user = function(user, cb) {
-				winston.info(util.format(
-					"Following user '%s'...", user.screen_name
-					));
-
-				if (commander.go) {
-					twitter.addFriend(user.screen_name, function(error) {
-						if (error) {
-							cb(error);
-							return(null);
-						}
-						winston.info(util.format(
-							"Added user '%s'!", user.screen_name
-							));
-						cb(null);
-					});
-
-				} else {
-					winston.info(util.format(
-						"Pretending to follow user '%s'", user.screen_name
-						));
-					cb(null);
-
-				}
-
-			}
-
-			twitter.getFollowers(opt, add_user, cb);
+			twitter.getFollowers(opt, followUser, cb);
 
 		}, function(users, cb) {
 				winston.info("Done adding users!");
