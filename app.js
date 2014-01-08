@@ -71,6 +71,7 @@ function main() {
 		.option("-n, --num <n>", "How many followers to add as friends", parseInt)
 		.option("--include_protected", "Add protected users as friends (request access to their Twitter feeds, actually)")
 		.option("--cursor <cursor>", "Our cursor from a previous run so we can pick up where we left off")
+		.option("--add_user_concurrency <n>", "How many users do we want to add in parallel?")
 		.option("--whoami", "Ask Twitter who the authenticating user is")
 		.option("--go", "Actually add followers as twitter friends. (adding users is faked, otherwise)")
 		.parse(process.argv)
@@ -90,7 +91,6 @@ function main() {
 		//
 		// Add followers as friends
 		//
-
 		async.waterfall([
 			function(cb) {
 				var opt = {};
@@ -100,6 +100,7 @@ function main() {
 				opt.include_protected = commander.include_protected;
 				opt.just_fans = true;
 				opt.cursor = commander.cursor;
+				opt.add_user_concurrency = commander.add_user_concurrency;
 	
 				twitter.getFollowers(opt, followUser, cb);
 
@@ -126,4 +127,6 @@ function main() {
 
 
 main();
+
+
 

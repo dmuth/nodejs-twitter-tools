@@ -35,6 +35,7 @@ So I wrote my own.
     -n, --num <n>        How many followers to add as friends
     --include_protected  Add protected users as friends (request access to their Twitter feeds, actually)
     --cursor <cursor>    Our cursor from a previous run so we can pick up where we left off
+    --add_user_concurrency How many users do we want to add in parallel?
     --whoami             Ask Twitter who the authenticating user is
     --go                 Actually add followers as twitter friends. (adding users is faked, otherwise)
 ````
