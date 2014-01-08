@@ -11,4 +11,11 @@ twitter:
     access_token: ""
     access_token_secret: ""
 
+#
+# Any users that we do not want to follow should go in here
+#
+ignore:
+    test: true
+	test_user: true
+
 
