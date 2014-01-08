@@ -40,15 +40,15 @@ function followUser(user, cb) {
 
 	if (commander.go) {
 		twitter.addFriend(user.screen_name, function(error) {
-		if (error) {
-			cb(error);
-			return(null);
-		}
-		winston.info(util.format(
-			"Added user '%s'!", user.screen_name
-			));
-		cb(null);
-	});
+			if (error) {
+				cb(error);
+				return(null);
+			}
+			winston.info(util.format(
+				"Added user '%s'!", user.screen_name
+				));
+			cb(null);
+		});
 
 	} else {
 		winston.info(util.format(
@@ -61,60 +61,69 @@ function followUser(user, cb) {
 } // End of followUser()
 
 
-commander
-	.version('0.0.1')
-	.option("-n, --num <n>", "How many followers to add as friends", parseInt)
-	.option("--include_protected", "Add protected users as friends (request access to their Twitter feeds, actually)")
-	.option("--cursor <cursor>", "Our cursor from a previous run so we can pick up where we left off")
-	.option("--whoami", "Ask Twitter who the authenticating user is")
-	.option("--go", "Actually add followers as twitter friends. (adding users is faked, otherwise)")
-	.parse(process.argv)
-	;
+/**
+* Our main entry point.
+*/
+function main() {
 
-var twitter = new t(options);
+	commander
+		.version('0.0.1')
+		.option("-n, --num <n>", "How many followers to add as friends", parseInt)
+		.option("--include_protected", "Add protected users as friends (request access to their Twitter feeds, actually)")
+		.option("--cursor <cursor>", "Our cursor from a previous run so we can pick up where we left off")
+		.option("--whoami", "Ask Twitter who the authenticating user is")
+		.option("--go", "Actually add followers as twitter friends. (adding users is faked, otherwise)")
+		.parse(process.argv)
+		;
 
-if (commander.whoami) {
-	//
-	// Just ask Twitter who we are
-	//
-	twitter.getMe(function(error, results) {
-		console.log(JSON.stringify(results, true, 4));
-	});
+	var twitter = new t(options);
 
-} else if (commander.num) {
-	//
-	// Add followers as friends
-	//
-
-	async.waterfall([
-		function(cb) {
-			var opt = {};
-			opt.limit = commander.num;
-			opt.skip = 0;
-			//opt.chunk_size = 10;
-			opt.include_protected = commander.include_protected;
-			opt.just_fans = true;
-			opt.cursor = commander.cursor;
-	
-			twitter.getFollowers(opt, followUser, cb);
-
-		}, function(users, cb) {
-				winston.info("Done adding users!");
-				cb();
-
-		}
-		], function(error) {
-			if (error) {
-				winston.error(error);
-				process.exit(1);
-			}
-
+	if (commander.whoami) {
+		//
+		// Just ask Twitter who we are
+		//
+		twitter.getMe(function(error, results) {
+			console.log(JSON.stringify(results, true, 4));
 		});
 
-} else {
-	commander.outputHelp();
-	process.exit(1);
+	} else if (commander.num) {
+		//
+		// Add followers as friends
+		//
 
-}
+		async.waterfall([
+			function(cb) {
+				var opt = {};
+				opt.limit = commander.num;
+				opt.skip = 0;
+				//opt.chunk_size = 10;
+				opt.include_protected = commander.include_protected;
+				opt.just_fans = true;
+				opt.cursor = commander.cursor;
+	
+				twitter.getFollowers(opt, followUser, cb);
 
+			}, function(users, cb) {
+					winston.info("Done adding users!");
+					cb();
+
+			}
+			], function(error) {
+				if (error) {
+					winston.error(error);
+					process.exit(1);
+				}
+
+			});
+
+	} else {
+		commander.outputHelp();
+		process.exit(1);
+
+	}
+
+} // End of main()
+
+
+main();
 
