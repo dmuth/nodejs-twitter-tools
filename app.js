@@ -29,10 +29,11 @@ options.access_token_secret = config.twitter.access_token_secret;
 /**
 * Follow a user on Twitter
 *
+* @param {object} twitter Our twitter object
 * @param {object} user The user object
 * @param {object} cb Our callback
 */
-function followUser(user, cb) {
+function followUser(twitter, user, cb) {
 
 	winston.info(util.format(
 		"Following user '%s'...", user.screen_name
