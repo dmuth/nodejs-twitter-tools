@@ -27,13 +27,45 @@ options.access_token_secret = config.twitter.access_token_secret;
 
 
 /**
+* This function returns a sample command line with options. Useful for 
+* telling a user how to run this script to continue an aborted run.
+*
+* @param {object} options Our options
+*/
+function getArgsWithOpts(options) {
+
+	var retval = "";
+
+	if (options.limit) {
+		retval += " --num " + options.left;
+	}
+
+	if (options.include_protected) {
+		retval += " --include_protected";
+	}
+
+	if (options.cursor) {
+		retval += " --cursor " + options.cursor;
+	}
+
+	if (options.add_user_concurrency) {
+		retval += " --add_user_concurrency " + options.add_user_concurrency;
+	}
+
+	return(retval);
+
+} // End of printArgsWithOpts()
+
+
+/**
 * Follow a user on Twitter
 *
 * @param {object} twitter Our twitter object
 * @param {object} user The user object
+* @param {object} options The current options and stats data
 * @param {object} cb Our callback
 */
-function followUser(twitter, user, cb) {
+function followUser(twitter, user, options, cb) {
 
 	winston.info(util.format(
 		"Following user '%s'...", user.screen_name
@@ -42,6 +74,9 @@ function followUser(twitter, user, cb) {
 	if (commander.go) {
 		twitter.addFriend(user.screen_name, function(error) {
 			if (error) {
+				error.screen_name = user.screen_name;
+				error.options = JSON.parse(JSON.stringify(options));
+				delete error.options.results;
 				cb(error);
 				return(null);
 			}
@@ -113,6 +148,10 @@ function main() {
 			], function(error) {
 				if (error) {
 					winston.error(error);
+					if (error.options) {
+						var cmd = getArgsWithOpts(error.options);
+						winston.info("To re-run this command, use these options: " + cmd);
+					}
 					process.exit(1);
 				}
 
