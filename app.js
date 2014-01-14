@@ -120,6 +120,10 @@ function main() {
 		// Just ask Twitter who we are
 		//
 		twitter.getMe(function(error, results) {
+			if (error) {
+				console.log(error);
+				process.exit(1);
+			}
 			console.log(JSON.stringify(results, true, 4));
 		});
 
