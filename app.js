@@ -24,6 +24,10 @@ options.consumer_key = config.twitter.consumer_key;
 options.consumer_secret = config.twitter.consumer_secret;
 options.access_token = config.twitter.access_token;
 options.access_token_secret = config.twitter.access_token_secret;
+winston.info("I have the following config (NODE_ENV=" 
+	+ process.env["NODE_ENV"] + "): " 
+	+ JSON.stringify(config, null, 2)
+	);
 
 
 /**
